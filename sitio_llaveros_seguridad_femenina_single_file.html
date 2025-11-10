@@ -1,0 +1,231 @@
+<!--
+Archivo: sitio-llaveros-seguridad.html
+Descripción: Plantilla de página web single-file (HTML/CSS/JS) para un negocio de llaveros de seguridad femenina.
+Instrucciones rápidas:
+ 1) Reemplaza G-XXXXXXXXXX por tu Measurement ID de Google Analytics 4 (GA4) o configura Matomo si prefieres privacidad.
+ 2) Sube este archivo a Netlify / Vercel / GitHub Pages o insértalo en tu hosting.
+ 3) En Google Analytics: comprueba Realtime y luego Reports > Engagement > Pages and screens para ver visitas.
+ 4) Para métricas personalizadas (add_to_cart, purchase) usa Google Tag Manager o envía eventos con gtag('event', ...).
+ 5) Conecta GA4 a Looker Studio (Data Studio) para dashboards visuales.
+
+Este archivo incluye:
+ - Estructura de la web (home, productos, contacto)
+ - Código JS para un carrito simple en el cliente
+ - Envío de eventos de interacción hacia GA4 (placeholder)
+ - Mini-sección "Analytics local" para ver visitas en la sesión (útil mientras configuras GA)
+-->
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GuardiaKey - Llaveros de Seguridad Femenina</title>
+  <meta name="description" content="Llaveros de seguridad personales diseñados para proteger a mujeres. Compactos, fáciles de usar y resistentes.">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    /* Estilos simples y limpios - puedes reemplazar por Tailwind o tu framework */
+    :root{--accent:#e91e63;--muted:#666}
+    *{box-sizing:border-box}
+    body{font-family:Inter,Segoe UI,Arial,sans-serif;margin:0;color:#222}
+    header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
+    .container{max-width:1100px;margin:0 auto;padding:1rem}
+    .nav{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:.75rem;align-items:center}
+    .brand h1{margin:0;font-size:1.15rem;color:var(--accent)}
+    nav a{margin-left:1rem;text-decoration:none;color:var(--muted)}
+    .hero{background:linear-gradient(90deg,#fff 60%,#fff);padding:2rem 0}
+    .hero-grid{display:flex;gap:2rem;align-items:center}
+    .hero-text h2{margin:0 0 .5rem;font-size:1.6rem}
+    .btn{background:var(--accent);color:#fff;padding:.6rem .9rem;border-radius:10px;border:0;cursor:pointer}
+    .products{padding:2rem 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+    .card{border:1px solid #eee;padding:1rem;border-radius:10px;background:#fff}
+    .price{font-weight:700;color:var(--accent)}
+    footer{padding:1rem 0;background:#fafafa;border-top:1px solid #eee;margin-top:2rem}
+    .cart-btn{position:fixed;right:1rem;bottom:1rem;background:#000;color:#fff;padding:.7rem;border-radius:999px}
+    .analytics-local{background:#f7f7f7;padding:.6rem;border-radius:8px;margin-top:.6rem;font-size:.9rem}
+  </style>
+
+  <!-- GA4 gtag (reemplaza el ID) -->
+  <!-- Sustituir G-XXXXXXXXXX por tu measurement ID de GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-374820409"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date());
+    gtag('config', 'G-374820409');
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#e91e63" stroke-width="1.2"/><path d="M8 12h8" stroke="#e91e63" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <h1>GuardiaKey</h1>
+        <small style="color:var(--muted);margin-left:.5rem">Seguridad femenina</small>
+      </div>
+      <nav>
+        <a href="#productos">Productos</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-text" style="flex:1">
+          <h2>Llaveros de seguridad personal — compactos y fiables</h2>
+          <p style="color:var(--muted)">Diseñados para que cualquier mujer pueda llevar una herramienta de alerta inmediata. Fácil de usar, audible y discreto.</p>
+          <div style="margin-top:1rem">
+            <button class="btn" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Ver productos</button>
+          </div>
+        </div>
+        <div style="width:280px">
+          <img src="https://placehold.co/280x280?text=Producto" alt="llavero" style="width:100%;border-radius:10px;display:block"/>
+        </div>
+      </div>
+    </section>
+
+    <section id="productos" class="products">
+      <h3>Productos</h3>
+      <div class="grid" id="product-list"></div>
+    </section>
+
+    <section id="como-funciona">
+      <h3>Cómo funciona</h3>
+      <p style="color:var(--muted)">Cuando se activa el llavero, emite una alarma sonora y puede enviar un evento (si está conectado) para notificar a contactos. En esta demo, mostramos un carrito y eventos de interacción enviados a Google Analytics cuando el usuario añade al carrito o visita una página de producto.</p>
+    </section>
+
+    <section id="contacto">
+      <h3>Contacto</h3>
+      <p style="color:var(--muted)">¿Tienes preguntas o pedidos por mayor? Escribe a ventas@guardiakey.cl</p>
+    </section>
+
+    <div class="analytics-local">
+      <strong>Analítica local (solo navegador):</strong>
+      <div id="local-views">Visitas en esta sesión: 0</div>
+      <div id="local-total">Visitas totales en este navegador: 0</div>
+    </div>
+
+  </main>
+
+  <button class="cart-btn" onclick="toggleCart()">Carrito (<span id="cart-count">0</span>)</button>
+
+  <!-- Cart modal simple -->
+  <div id="cart-modal" style="display:none;position:fixed;right:1rem;bottom:4rem;background:#fff;border:1px solid #eee;padding:1rem;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.06);width:320px">
+    <h4>Carrito</h4>
+    <div id="cart-items"></div>
+    <div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center">
+      <strong id="cart-total">$0</strong>
+      <button class="btn" onclick="checkout()">Comprar</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center">
+      <div>© <span id="year"></span> GuardiaKey</div>
+      <div style="color:var(--muted)">Diseño simple · Listo para desplegar</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Datos de ejemplo de productos
+    const products = [
+      {id:1,name:'Llavero Alarma Compacto',price:12990,desc:'Alarma 120dB, tamaño bolsillo'},
+      {id:2,name:'Llavero Spray (demo)',price:14990,desc:'Spray inofensivo demo, solo venta presencial'},
+      {id:3,name:'Llavero Multifunción',price:17990,desc:'Linterna + alarma + funda'}
+    ];
+
+    const productList = document.getElementById('product-list');
+    const cart = [];
+
+    function renderProducts(){
+      productList.innerHTML = '';
+      products.forEach(p=>{
+        const card = document.createElement('div');card.className='card';
+        card.innerHTML = `
+          <img src="https://placehold.co/400x240?text=${encodeURIComponent(p.name)}" alt="${p.name}" style="width:100%;border-radius:8px;margin-bottom:.6rem"/>
+          <h4 style="margin:0">${p.name}</h4>
+          <div style="color:var(--muted);font-size:.95rem;margin:.35rem 0">${p.desc}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">$${p.price}</div>
+            <div>
+              <button class="btn" onclick="addToCart(${p.id})">Agregar</button>
+              <button style="margin-left:.4rem" onclick="viewProduct(${p.id})">Ver</button>
+            </div>
+          </div>`;
+        productList.appendChild(card);
+      })
+    }
+
+    function viewProduct(id){
+      const p = products.find(x=>x.id===id);
+      alert(p.name + "\n\n" + p.desc + "\nPrecio: $"+p.price);
+      // Evento a GA: view_item
+      gtag && gtag('event','view_item',{items:[{id:p.id,name:p.name,price:p.price}]});
+    }
+
+    function addToCart(id){
+      const p = products.find(x=>x.id===id);
+      cart.push(p);
+      document.getElementById('cart-count').textContent = cart.length;
+      renderCart();
+      // Evento a GA: add_to_cart
+      gtag && gtag('event','add_to_cart',{items:[{id:p.id,name:p.name,price:p.price}],value:p.price});
+    }
+
+    function renderCart(){
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      let total = 0;
+      cart.forEach((p,i)=>{
+        total += p.price;
+        const div = document.createElement('div');
+        div.style.display='flex';div.style.justifyContent='space-between';div.style.marginTop='.5rem';
+        div.innerHTML = `<div>${p.name}</div><div>$${p.price} <button onclick='removeFromCart(${i})' style="margin-left:.5rem">x</button></div>`;
+        container.appendChild(div);
+      })
+      document.getElementById('cart-total').textContent = '$' + total;
+    }
+
+    function removeFromCart(i){cart.splice(i,1);document.getElementById('cart-count').textContent = cart.length;renderCart()}
+
+    function toggleCart(){
+      const modal = document.getElementById('cart-modal');
+      modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function checkout(){
+      if(cart.length===0){alert('El carrito está vacío');return}
+      // Simula un evento de compra -> en producción integrar con pasarela
+      const purchaseValue = cart.reduce((s,p)=>s+p.price,0);
+      gtag && gtag('event','purchase',{transaction_id:Date.now().toString(),value:purchaseValue,currency:'CLP',items:cart.map(p=>({id:p.id,name:p.name,price:p.price}))});
+      alert('Gracias por tu compra demo! Valor: $' + purchaseValue);
+      cart.length = 0;document.getElementById('cart-count').textContent = 0;renderCart();
+    }
+
+    // Analítica local simple
+    function updateLocalAnalytics(){
+      // visitas en sesión
+      let sessionViews = sessionStorage.getItem('gv_session') || 0; sessionViews = Number(sessionViews) + 1; sessionStorage.setItem('gv_session',sessionViews);
+      document.getElementById('local-views').textContent = 'Visitas en esta sesión: ' + sessionViews;
+      // visitas totales en este navegador
+      let total = localStorage.getItem('gv_total') || 0; total = Number(total) + 1; localStorage.setItem('gv_total',total);
+      document.getElementById('local-total').textContent = 'Visitas totales en este navegador: ' + total;
+
+      // Enviar page_view a GA (adicional al gtag config)
+      gtag && gtag('event','page_view',{page_path:location.pathname});
+    }
+
+    // Inicializa
+    renderProducts();
+    renderCart();
+    updateLocalAnalytics();
+  </script>
+</body>
+</html>
